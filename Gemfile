@@ -20,6 +20,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'google_timezone'
 gem 'geokit'
 gem 'newrelic_rpm'
+gem 'selenium-webdriver'
+gem 'capybara'
 
 
 group :development, :test do
