@@ -1,28 +1,28 @@
 desc "Simulate load against HubStub application"
 task :load_test => :environment do
   session = Capybara::Session.new(:selenium)
-  session.visit("http://scale-up.herokuapp.com")
-   #user logs in and lists a ticket
-   session.click_link("Login")
-   session.fill_in "session[email]", with: "sample@sample.com"
-   session.fill_in "session[password]", with: "password"
-   session.click_link_or_button("Log in")
-   puts "Login"
-   session.click_link("My Hubstub")
-   session.click_link("List a Ticket")
-   session.select  "TLC", from: "item[event_id]"
-   session.fill_in "item[section]", with: "FA"
-   session.fill_in "item[row]", with: "555"
-   session.fill_in "item[seat]", with: "60"
-   session.fill_in "item[unit_price]", with: 30
-   session.select  "Electronic", from: "item[delivery_method]"
-   session.click_button("List Ticket")
-   puts "New ticket created"
-   session.click_link("Logout")
-   puts "Logout"
-   
-  # loop do
-   #guest adds something to cart and signs up
+  loop do
+    session.visit("http://scale-up.herokuapp.com")
+    #user logs in and lists a ticket
+    session.click_link("Login")
+    session.fill_in "session[email]", with: "sample@sample.com"
+    session.fill_in "session[password]", with: "password"
+    session.click_link_or_button("Log in")
+    puts "Login"
+    session.click_link("My Hubstub")
+    session.click_link("List a Ticket")
+    session.select  "TLC", from: "item[event_id]"
+    session.fill_in "item[section]", with: "FA"
+    session.fill_in "item[row]", with: "555"
+    session.fill_in "item[seat]", with: "60"
+    session.fill_in "item[unit_price]", with: 30
+    session.select  "Electronic", from: "item[delivery_method]"
+    session.click_button("List Ticket")
+    puts "New ticket created"
+    session.click_link("Logout")
+    puts "Logout"
+    
+    #guest adds something to cart and signs up
     session.click_link("Buy")
     session.click_link("All Tickets")
     puts "all tickets clicked"
@@ -45,7 +45,5 @@ task :load_test => :environment do
     session.fill_in "user[password_confirmation]", with: "password"
     session.click_button("Create my account!")
     puts "create account"
-    
-    
-  # end
+  end
 end
