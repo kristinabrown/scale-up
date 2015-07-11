@@ -22,7 +22,7 @@ gem 'geokit'
 gem 'newrelic_rpm'
 gem 'selenium-webdriver'
 gem 'capybara'
-
+gem 'populator'
 
 group :development, :test do
   gem 'byebug', '~> 3.5.0'
@@ -34,6 +34,7 @@ group :development, :test do
   gem 'pry'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'database_cleaner', '~> 1.4.0'
+  gem 'poltergeist'
 end
 group :production do
   gem 'rails_12factor', '0.0.2'
