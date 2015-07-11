@@ -1,6 +1,12 @@
+require 'capybara/poltergeist'
+
 desc "Simulate load against HubStub application"
 task :load_test => :environment do
-  session = Capybara::Session.new(:selenium)
+   4.times.map { Thread.new { browse } }.map(&:join)
+end
+
+def browse
+  session = Capybara::Session.new(:poltergeist)
   loop do
     session.visit("http://scale-up.herokuapp.com")
     #user logs in and lists a ticket
@@ -27,6 +33,11 @@ task :load_test => :environment do
     session.click_link("All Tickets")
     puts "all tickets clicked"
     session.click_link("All")
+    puts session.current_path
+    session.click_link("Sports")
+    session.click_link("Music")
+    session.click_link("Theater")
+    session.click_link("All")
     puts "sports searched"
     session.all("p.event-name a").sample.click
     session.all("tr").sample.find(:css, "input.btn").click
@@ -44,6 +55,7 @@ task :load_test => :environment do
     session.fill_in "user[password]", with: "password"
     session.fill_in "user[password_confirmation]", with: "password"
     session.click_button("Create my account!")
+    puts session.current_path
     puts "create account"
   end
 end
