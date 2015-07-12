@@ -28,7 +28,7 @@ describe "admin venues", type: :feature do
       expect(page).to have_content("Create New Venue")
     end
 
-    it "can add a venue" do
+    xit "can add a venue" do
       user = create(:admin)
       allow_any_instance_of(ApplicationController).
         to receive(:current_user).

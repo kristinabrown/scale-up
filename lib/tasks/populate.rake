@@ -20,6 +20,7 @@ task :populate => :environment do
   
   User.populate(200_000) do |user|
     user.full_name = Faker::Name.name
+    user.slug = user.full_name.gsub(" ", "-")
     user.email = Faker::Internet.email
     user.password_digest = "password"
     user.street_1 = Faker::Address.street_address

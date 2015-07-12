@@ -9,7 +9,10 @@
   </div>
   <div class="col-lg-9 event-listing">
     <div class="event-listing-inner">
+      <!-- <% cache(action: 'index', action_suffix: 'all_events') do %> -->
       <%= render partial: "shared/event_table" %>
+      <%= will_paginate %>
+      <!-- <% end %> -->
     </div>
   </div>
 </div>
