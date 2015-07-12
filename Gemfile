@@ -27,7 +27,6 @@ gem 'poltergeist'
 gem 'will_paginate',           '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
 
-
 group :development, :test do
   gem 'byebug', '~> 3.5.0'
   gem 'web-console', '~> 2.0'
