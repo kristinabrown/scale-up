@@ -58,5 +58,23 @@ def browse
     session.click_button("Create my account!")
     puts session.current_path
     puts "create account"
+    
+    session.click_link("Login")
+    session.fill_in "session[email]", with: "admin@admin.com"
+    session.fill_in "session[password]", with: "password"
+    session.click_link_or_button("Log in")
+    puts "Admin Login"
+    click_link "Users"
+    session.all("tr").sample.click_link "Store"
+    session.visit "admin/events"
+    session.all("tr").sample.click_link "Edit"
+    session.fill_in "event[title]", with: "Ice-capades"
+    session.fill_in "event[date]", with: 33.days.from_now.change({ hour: 5, min: 0, sec: 0  })
+    session.fill_in "event[start-time]", with: "2000-01-01 19:00:00"
+    session.click_button "Submit"
+    click_link "3"
+    session.all("tr").sample.click_link "Delete"
+    session.click_link("Logout")
+    puts "Admin Done"
   end
 end
