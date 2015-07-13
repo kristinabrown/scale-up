@@ -21,6 +21,7 @@
           <td><%= link_to "Delete", admin_venue_path(venue), method: :delete, class: "btn btn-default" %></td>
         </tr>
       <% end %>
+      <%= will_paginate %>
     </tbody>
   </table>
 </div>
