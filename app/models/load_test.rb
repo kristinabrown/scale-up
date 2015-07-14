@@ -59,7 +59,7 @@ class LoadTest
   def create_ticket
     session.click_link("My Hubstub")
     session.click_link("List a Ticket")
-    session.select  "TLC", from: "item[event_id]"
+    session.fill_in "item[event_id]", with: rand(1..20000)
     session.fill_in "item[section]", with: "FA"
     session.fill_in "item[row]", with: "555"
     session.fill_in "item[seat]", with: "60"
@@ -138,5 +138,12 @@ class LoadTest
     session.fill_in "event[start_time]", with: "2000-01-01 19:00:00"
     session.click_button "Submit"
     puts "admin create event"
+  end
+  
+  def admin_visit_venues
+    session.click_link "Events"
+    session.click_link "Manage Venues"
+    session.click_link "Events"
+    session.click_link "Manage Events"
   end
 end
