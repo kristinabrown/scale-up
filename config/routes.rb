@@ -55,8 +55,6 @@ Rails.application.routes.draw do
     resources :items, only: [:edit, :destroy, :update]
     resources :orders, only: [:index, :show]
   end
-
-  get "*rest" => "static_pages#not_found"
   
   match '/404', to: 'errors#file_not_found', via: :all
   match '/422', to: 'errors#unprocessable', via: :all
