@@ -12,6 +12,8 @@ class Event < ActiveRecord::Base
   belongs_to :category
 
   has_many :items
+  
+  default_scope { order(:date) }
 
   scope :active,      -> { joins(:items).uniq.merge(Item.available).open_events }
   scope :open_events, -> { where("date >= ?", Date.today).is_approved }
