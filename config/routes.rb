@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  get 'errors/file_not_found'
-
-  get 'errors/unprocessable'
-
-  get 'errors/internal_server_error'
+  # get 'errors/file_not_found'
+  # 
+  # get 'errors/unprocessable'
+  # 
+  # get 'errors/internal_server_error'
 
   root to: "static_pages#index"
   resources :users, only: [:new, :create, :edit, :update]
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   get "/cart" => "cart_items#index"
   post "/cart" => "cart_items#create"
   post "/remove_item" => "cart_items#destroy"
-  post "/update_item" => "cart_items#update"
+  # post "/update_item" => "cart_items#update"
 
   resources :events, only: [:show]
   resources :orders, only: [:show, :new, :create, :index]

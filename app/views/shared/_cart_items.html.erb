@@ -35,7 +35,7 @@
           <td class="vert-align delivery-meth"><%= item.delivery_method %></td>
           <td class="vert-align"><%= item.dollar_amount %></td>
           <% if current_page?(cart_path) %>
-          <td class="vert-align"><%= button_to  "Remove", remove_item_path(item_id: item.id), data: { confirm: 'Are you sure you want to remove this item from your cart?' }, id:"btn-danger" %></td>
+          <td class="vert-align"><%= button_to  "Remove", remove_item_path(item_id: item.id), id:"btn-danger" %></td>
           <% end %>
           </tr>
       <% end %>
