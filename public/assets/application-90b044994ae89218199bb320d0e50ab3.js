@@ -13150,6 +13150,10 @@ $('input[name="name-of-radio-group"]').change( function() {
 
 
 }).call(this);
+(function() {
+
+
+}).call(this);
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
