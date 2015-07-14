@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   end
 
   def group_events(cart = nil)
-    self.items.active.not_in_cart(cart).group_by { |item| item.event }
+    self.items.not_in_cart(cart).group_by { |item| item.event }
   end
 
   def self.digest(string)
