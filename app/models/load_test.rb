@@ -13,37 +13,22 @@ class LoadTest
       visit_root
       log_in("sample@sample.com", "password")
       create_ticket
+      past_orders
+      edit_profile
       log_out
       search_events
       add_to_cart_create_account
       log_in("admin@admin.com", "password")
-
-      session.click_link "Users"
-      session.all("tr").sample.click_link "Store"
-      session.click_link "Events"
-      session.click_link "Manage Events"
-      puts "visit events index"
-      session.all("tr").sample.click_link "Edit"
-      session.fill_in "event[title]", with: ("A".."Z").to_a.shuffle.first(5).join
-      session.fill_in "event[date]", with: 33.days.from_now.change({ hour: 5, min: 0, sec: 0  })
-      session.fill_in "event[start_time]", with: "2000-01-01 19:00:00"
-      session.click_button "Submit"
-      puts "edited event"
-      session.all("tr").sample.click_link "Delete"
-      session.click_link "Create Event"
-      session.fill_in "event[title]", with: ("A".."Z").to_a.shuffle.first(5).join
-      session.fill_in "event[description]", with: "No description necessary."
-      session.fill_in "event[date]", with: 33.days.from_now.change({ hour: 5, min: 0, sec: 0  })
-      session.fill_in "event[start_time]", with: "2000-01-01 19:00:00"
-      session.click_button "Submit"
-      
+      admin_edit_event
+      admin_delete_event
+      admin_create_event
       log_out
-      puts "Admin Done"
     end
   end
   
   def visit_root
     session.visit("http://scale-up.herokuapp.com")
+    session.click_link("Adventure")
   end
   
   def log_in(email, password)
@@ -52,6 +37,21 @@ class LoadTest
     session.fill_in "session[password]", with: password
     session.click_link_or_button("Log in")
     puts "Login"
+  end
+  
+  def past_orders
+    session.click_link("My Hubstub")
+    session.click_link("Past Orders")
+    session.click_link("My Hubstub")
+    session.click_link("My Listings")
+  end
+  
+  def edit_profile
+    session.click_link("My Hubstub")
+    session.click_link("Manage Account")
+    session.click_link("Edit User Profile")
+    session.fill_in "user[city]", with: "Portland"
+    session.click_button("Update Account")
   end
   
   def create_ticket
@@ -82,6 +82,7 @@ class LoadTest
     session.click_link("Circus")
     session.click_link("Rodeo")
     session.click_link("Rock")
+    puts "used events filter"
   end
   
   def add_to_cart_create_account
@@ -105,5 +106,33 @@ class LoadTest
     
     session.click_link("Cart(1)")
     session.click_link_or_button("Remove")
+    puts "add item to cart, create account, and remove it"
+  end
+  
+  def admin_edit_event
+    session.click_link "Users"
+    session.all("tr").sample.click_link "Store"
+    session.click_link "Events"
+    session.click_link "Manage Events"
+    session.all("tr").sample.click_link "Edit"
+    session.fill_in "event[title]", with: ("A".."Z").to_a.shuffle.first(5).join
+    session.fill_in "event[date]", with: 33.days.from_now.change({ hour: 5, min: 0, sec: 0  })
+    session.fill_in "event[start_time]", with: "2000-01-01 19:00:00"
+    session.click_button "Submit"
+    puts "event edited by admin"
+  end
+  
+  def admin_delete_event
+    session.all("tr").sample.click_link "Delete"
+  end
+  
+  def admin_create_event
+    session.click_link "Create Event"
+    session.fill_in "event[title]", with: ("A".."Z").to_a.shuffle.first(5).join
+    session.fill_in "event[description]", with: "No description necessary."
+    session.fill_in "event[date]", with: 33.days.from_now.change({ hour: 5, min: 0, sec: 0  })
+    session.fill_in "event[start_time]", with: "2000-01-01 19:00:00"
+    session.click_button "Submit"
+    puts "admin create event"
   end
 end
