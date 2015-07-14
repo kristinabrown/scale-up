@@ -14,3 +14,4 @@
 /config/secrets.yml
 /public/system/*
 /spec/test_files
+capybara-*
