@@ -20,5 +20,6 @@
       <% end %>
     <% end -%>
   <% end %>
+  <%= will_paginate(@orders, :renderer => WillPaginate::ActionView::LinkRenderer)%>
 </table>
 </div>

@@ -27,7 +27,9 @@ class LoadTest
   end
   
   def visit_root
-    session.visit("http://scale-up.herokuapp.com")
+    # session.visit("http://scale-up.herokuapp.com")
+    session.visit("http://localhost:3000")
+    
     session.click_link("Adventure")
   end
   
