@@ -4,7 +4,7 @@ class LoadTest
   attr_reader :session
   
   def initialize
-    @session = Capybara::Session.new(:selenium)
+    @session = Capybara::Session.new(:poltergeist)
   end
   
   def browse
@@ -27,8 +27,8 @@ class LoadTest
   end
   
   def visit_root
-    # session.visit("http://scale-up.herokuapp.com")
-    session.visit("http://localhost:3000")
+    session.visit("http://scale-up.herokuapp.com")
+    # session.visit("http://localhost:3000")
     
     session.click_link("Adventure")
   end
@@ -114,8 +114,10 @@ class LoadTest
   def admin_edit_event
     session.click_link "Users"
     session.all("tr").sample.click_link "Store"
+    puts "visited admin users index"
     session.click_link "Events"
     session.click_link "Manage Events"
+    puts session.current_path
     session.all("tr").sample.click_link "Edit"
     session.fill_in "event[title]", with: ("A".."Z").to_a.shuffle.first(5).join
     session.fill_in "event[date]", with: 33.days.from_now.change({ hour: 5, min: 0, sec: 0  })
