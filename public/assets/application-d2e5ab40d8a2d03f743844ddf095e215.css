@@ -4909,6 +4909,13 @@ a.badge:focus {
 .total_price {
   text-align: right;
 }
+/* line 5, /Users/kristinabrown/turing/mod4/scale-up/HubStub/app/assets/stylesheets/errors.scss */
+.error-div {
+  background-color: white;
+  color: #870f2f;
+  padding: 15px;
+  width: 75%;
+}
 /* line 1, /Users/kristinabrown/turing/mod4/scale-up/HubStub/app/assets/stylesheets/event_index.css.scss */
 .event-listing-page {
   margin-top: 50px;
