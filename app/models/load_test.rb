@@ -1,5 +1,4 @@
 require 'capybara/poltergeist'
-require 'simplecov'
  
 class LoadTest
   attr_reader :session
@@ -10,10 +9,9 @@ class LoadTest
   
   def browse
     begin
-      SimpleCov.start
       loop do  
         visit_root
-        # visit_random_venue_page
+        visit_random_venue_page
         log_in("sample@sample.com", "password")
         create_ticket_then_edit_and_destroy
         past_orders
@@ -42,8 +40,8 @@ class LoadTest
   end
   
   def visit_root
-    # session.visit("http://scale-up.herokuapp.com")
-    session.visit("http://localhost:3000")
+    session.visit("http://scale-up.herokuapp.com")
+    # session.visit("http://localhost:3000")
     
     session.click_link("Adventure")
   end
@@ -89,7 +87,7 @@ class LoadTest
     session.fill_in "item[section]", with: "AA"
     session.click_button("Submit")
     
-    session.all("tr").last.click_button("Delete Listing")
+    session.all(:css, "tr.item-row").last.click_button("Delete Listing")
     
     puts "ticket edited and deleted"
   end
