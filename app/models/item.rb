@@ -5,7 +5,7 @@ class Item < ActiveRecord::Base
   has_one  :category, through: :event
   has_many :order_items
   has_many :orders, through: :order_items
-  belongs_to :user
+  belongs_to :user, touch: true
   belongs_to :event
 
   before_create :unit_price_converter
@@ -55,7 +55,7 @@ class Item < ActiveRecord::Base
 
   def seller
     user.slug
-  end
+  end\
 
   def self.mark_as_sold(ids)
     ids.each do |id|
@@ -64,5 +64,4 @@ class Item < ActiveRecord::Base
       item.save
     end
   end
-
 end
