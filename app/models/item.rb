@@ -55,7 +55,7 @@ class Item < ActiveRecord::Base
 
   def seller
     user.slug
-  end
+  end\
 
   def self.mark_as_sold(ids)
     ids.each do |id|
@@ -64,5 +64,4 @@ class Item < ActiveRecord::Base
       item.save
     end
   end
-
 end

@@ -16,7 +16,7 @@ class EventsController < ApplicationController
   end
 
   def random
-    event = Event.find(rand(1..30_000))
+    event = Event.find(rand(1..Event.count))
     redirect_to event
   end
 end
