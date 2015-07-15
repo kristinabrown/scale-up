@@ -20,15 +20,16 @@ Rails.application.routes.draw do
   get "/cart" => "cart_items#index"
   post "/cart" => "cart_items#create"
   post "/remove_item" => "cart_items#destroy"
-  post "/update_item" => "cart_items#update"
+  # post "/update_item" => "cart_items#update"
 
   resources :events, only: [:show]
   resources :orders, only: [:show, :new, :create, :index]
+  #not hitting orders new and create
 
   scope "admin", module: "admin", as: "admin" do
-    post "/orders/:status" => "orders#filter", as: "filter_order"
+    # post "/orders/:status" => "orders#filter", as: "filter_order"
     put "/orders/:id" => "orders#update", as: "update_order"
-    get "/orders/:status" => "orders#filter", as: "order"
+    # get "/orders/:status" => "orders#filter", as: "order"
 
     resources :categories
     resources :events

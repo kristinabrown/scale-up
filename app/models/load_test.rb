@@ -1,18 +1,21 @@
 require 'capybara/poltergeist'
+require 'simplecov'
  
 class LoadTest
   attr_reader :session
   
   def initialize
-    @session = Capybara::Session.new(:poltergeist)
+    @session = Capybara::Session.new(:selenium)
   end
   
   def browse
     begin
+      SimpleCov.start
       loop do  
         visit_root
+        # visit_random_venue_page
         log_in("sample@sample.com", "password")
-        create_ticket
+        create_ticket_then_edit_and_destroy
         past_orders
         edit_profile
         log_out
@@ -22,16 +25,25 @@ class LoadTest
         admin_edit_event
         admin_delete_event
         admin_create_event
+        admin_visit_venues
+        admin_create_venue_and_delete_it
+        admin_create_category_edit_and_delete_it
         log_out
       end
       rescue StandardError => error
-        puts error
+        puts "ERROR: #{error}"
+        if session.find_link('Logout')
+          log_out
+          browse
+        else
+          browse
+        end
     end 
   end
   
   def visit_root
-    session.visit("http://scale-up.herokuapp.com")
-    # session.visit("http://localhost:3000")
+    # session.visit("http://scale-up.herokuapp.com")
+    session.visit("http://localhost:3000")
     
     session.click_link("Adventure")
   end
@@ -59,7 +71,7 @@ class LoadTest
     session.click_button("Update Account")
   end
   
-  def create_ticket
+  def create_ticket_then_edit_and_destroy
     session.click_link("My Hubstub")
     session.click_link("List a Ticket")
     session.fill_in "item[event_id]", with: rand(1..20000)
@@ -70,6 +82,16 @@ class LoadTest
     session.select  "Electronic", from: "item[delivery_method]"
     session.click_button("List Ticket")
     puts "New ticket created"
+    
+    session.click_link("My Hubstub")
+    session.click_link("My Listings")
+    session.all(:css, "tr.item-row").last.click_button("Edit Listing")
+    session.fill_in "item[section]", with: "AA"
+    session.click_button("Submit")
+    
+    session.all("tr").last.click_button("Delete Listing")
+    
+    puts "ticket edited and deleted"
   end
   
   def log_out
@@ -87,12 +109,14 @@ class LoadTest
     session.click_link("Circus")
     session.click_link("Rodeo")
     session.click_link("Rock")
+    session.click_link("All")
     puts "used events filter"
   end
   
   def add_to_cart_create_account
-    session.all("p.event-name a").sample.click
-    session.all("tr").sample.find(:css, "input.btn").click
+    session.click_link("Johnny Cash")
+    # session.all("tr").sample.find(:css, "input.btn").click
+    session.all(:css, "input.btn").sample.click
     puts "one thing added to cart"
     session.click_link("Cart(1)")
     session.click_link("Checkout")
@@ -146,7 +170,37 @@ class LoadTest
   def admin_visit_venues
     session.click_link "Events"
     session.click_link "Manage Venues"
+    session.all("tr").last.click_link "Edit"
+    session.fill_in "venue[location]", with: "Denver, CO"
+    session.click_button("Submit")
+    puts "venue edited"
+  end
+  
+  def admin_create_venue_and_delete_it
+    session.click_link_or_button("Create Venue")
+    session.fill_in "venue[name]", with: "fake venue"
+    session.fill_in "venue[location]", with: "no where"
+    session.click_button("Submit")
+    session.all("tr").last.click_link "Delete"
+    puts "venue created and deleted"
+  end
+  
+  def admin_create_category_edit_and_delete_it
     session.click_link "Events"
-    session.click_link "Manage Events"
+    session.click_link "Manage Categories"
+    session.click_link_or_button("Create Category")
+    session.fill_in "category[name]", with: "fake category"
+    session.click_button("Submit")
+    
+    session.all("tr").last.click_link "Edit"
+    session.fill_in "category[name]", with: "still fake"
+    session.click_button("Submit")
+    
+    session.all("tr").last.click_link "Delete"
+    puts "category created, edited, and deleted"
+  end   
+  
+  def visit_random_venue_page
+    session.visit("http://scale-up.herokuapp.com/venues/#{rand(1..15)}")
   end
 end

@@ -25,7 +25,7 @@
             <p class="feature-event-venue"> <%= link_to(event.venue.name, venue_path(event.venue)) %></p>
           </td>
           <td class="feature-tickets"><a href="#">
-              <p><%= link_to(event.items.count, event_path(event)) %></p>
+              <p><%= link_to(event.items.active.count, event_path(event)) %></p>
               <p>Available</p>
           </a></td>
         </tr>
