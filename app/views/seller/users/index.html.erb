@@ -79,7 +79,7 @@
           </thead>
           <tbody>
               <% items.each do |item| %>
-                <tr>
+                <tr class="item-row">
                   <td class="vert-align" id="seller-category">
                     <p><%= link_to(event.category.name, event_path(event)) %></p>
                   </td>
@@ -88,8 +88,8 @@
                   <td class="vert-align"><%= item.seat %></td>
                   <td class="vert-align delivery-meth"><%= item.delivery_method %></td>
                   <td class="vert-align"><%= item.dollar_amount %></td>
-                  <td class="vert-align"><%= button_to "Delete Listing", seller_item_path(@user.slug, item) , method: :delete, class: 'btn btn-default' %></td>
-                  <td class="vert-align"><%= button_to "Edit Listing", edit_seller_item_path(@user.slug, item.id), method: :get, class: 'btn btn-default' %></td>
+                  <td class="vert-align delete"><%= button_to "Delete Listing", seller_item_path(@user.slug, item) , method: :delete, class: 'btn btn-default' %></td>
+                  <td class="vert-align edit"><%= button_to "Edit Listing", edit_seller_item_path(@user.slug, item.id), method: :get, class: 'btn btn-default' %></td>
                 </tr>
               <% end %>
             <% end %>
