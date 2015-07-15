@@ -8,22 +8,25 @@ class LoadTest
   end
   
   def browse
-    loop do
-      
-      visit_root
-      log_in("sample@sample.com", "password")
-      create_ticket
-      past_orders
-      edit_profile
-      log_out
-      search_events
-      add_to_cart_create_account
-      log_in("admin@admin.com", "password")
-      admin_edit_event
-      admin_delete_event
-      admin_create_event
-      log_out
-    end
+    begin
+      loop do  
+        visit_root
+        log_in("sample@sample.com", "password")
+        create_ticket
+        past_orders
+        edit_profile
+        log_out
+        search_events
+        add_to_cart_create_account
+        log_in("admin@admin.com", "password")
+        admin_edit_event
+        admin_delete_event
+        admin_create_event
+        log_out
+      end
+      rescue StandardError => error
+        puts error
+    end 
   end
   
   def visit_root
