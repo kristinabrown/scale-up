@@ -7,18 +7,45 @@ class LoadTest
     @session = Capybara::Session.new(:poltergeist)
   end
   
-  def browse
+  def guest_browse
     begin
-      loop do  
         visit_root
+      loop do  
         visit_random_venue_page
+        search_events
+        add_to_cart_create_account
+      end
+      rescue StandardError => error
+        puts "GUEST ERROR: #{error}"
+        guest_browse
+    end 
+  end
+  
+  def user_stuff
+    begin
+      loop do
+        session.visit("http://scale-up.herokuapp.com/login")
         log_in("sample@sample.com", "password")
         create_ticket_then_edit_and_destroy
         past_orders
         edit_profile
         log_out
-        search_events
-        add_to_cart_create_account
+      end
+      rescue StandardError => error
+        puts "USER ERROR: #{error}"
+        if session.find_link('Logout')
+          log_out
+          user_stuff
+        else
+          user_stuff
+        end
+    end 
+  end
+  
+  def admin_stuff
+    begin
+      loop do
+        session.visit("http://scale-up.herokuapp.com/login")
         log_in("admin@admin.com", "password")
         admin_edit_event
         admin_delete_event
@@ -29,12 +56,12 @@ class LoadTest
         log_out
       end
       rescue StandardError => error
-        puts "ERROR: #{error}"
+        puts "ADMIN ERROR: #{error}"
         if session.find_link('Logout')
           log_out
-          browse
+          admin_stuff
         else
-          browse
+          admin_stuff
         end
     end 
   end
@@ -42,8 +69,6 @@ class LoadTest
   def visit_root
     session.visit("http://scale-up.herokuapp.com")
     # session.visit("http://localhost:3000")
-    
-    session.click_link("Adventure")
   end
   
   def log_in(email, password)
@@ -199,6 +224,7 @@ class LoadTest
   end   
   
   def visit_random_venue_page
+    session.click_link("Adventure")
     session.visit("http://scale-up.herokuapp.com/venues/#{rand(1..15)}")
   end
 end
