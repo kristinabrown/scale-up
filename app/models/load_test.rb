@@ -4,7 +4,7 @@ class LoadTest
   attr_reader :session
   
   def initialize
-    @session = Capybara::Session.new(:selenium)
+    @session = Capybara::Session.new(:poltergeist)
   end
   
   def browse
@@ -83,11 +83,11 @@ class LoadTest
     
     session.click_link("My Hubstub")
     session.click_link("My Listings")
-    session.all(:css, "tr.item-row").last.click_button("Edit Listing")
+    session.all("tr.item-row").last.click_button("Edit Listing")
     session.fill_in "item[section]", with: "AA"
     session.click_button("Submit")
     
-    session.all(:css, "tr.item-row").last.click_button("Delete Listing")
+    session.all("tr.item-row").last.click_button("Delete Listing")
     
     puts "ticket edited and deleted"
   end
